@@ -18,51 +18,34 @@ const Second1: React.FC = () => {
   const departments: Department[] = [
     {
       id: 1,
-      name: 'Department 1',
+      name: 'Customer_service',
       subDepartments: [
         {
           id: 1,
-          name: 'Sub Department 1.1',
+          name: 'Support',
         },
         {
           id: 2,
-          name: 'Sub Department 1.2',
+          name: 'Customer_success',
         },
-        {
-          id: 3,
-          name: 'Sub Department 1.3',
-        },
+        
       ],
     },
     {
       id: 2,
-      name: 'Department 2',
+      name: 'Design',
       subDepartments: [
         {
           id: 4,
-          name: 'Sub Department 2.1',
+          name: 'Graphic_design',
         },
         {
           id: 5,
-          name: 'Sub Department 2.2',
+          name: 'Product_design',
         },
-      ],
-    },
-    {
-      id: 3,
-      name: 'Department 3',
-      subDepartments: [
         {
           id: 6,
-          name: 'Sub Department 3.1',
-        },
-        {
-          id: 7,
-          name: 'Sub Department 3.2',
-        },
-        {
-          id: 8,
-          name: 'Sub Department 3.3',
+          name: 'Web_design',
         },
       ],
     },
