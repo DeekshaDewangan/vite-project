@@ -52,7 +52,7 @@ const TableComponent: React.FC = () => {
       </h1>
       <div
         style={{
-          height: 350,
+          height: 400,
           width: "85%",
           display: "block",
           marginLeft: "auto",
