@@ -1,84 +1,80 @@
-import React, { useState } from "react";
-import {Button, TextField, Grid} from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import React, { useState, FormEvent } from 'react';
+import { TextField, Button, Container, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-const Form: React.FC = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [number, setNumber] = useState("");
+interface FormData {
+  name: string;
+  phone: string;
+  email: string;
+}
+
+const ContactForm = () => {
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    phone: '',
+    email: '',
+  });
   const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    // Validate form inputs
-    if (!name || !email || !number) {
-      alert("Please enter your name and email.");
-      return;
-    }
-    if(number.length!==10){
-      alert("Enter a valid Phine number.");
-      return;
-    }
-
-    // Save user details in localStorage
-    localStorage.setItem("name", name);
-    localStorage.setItem("email", email);
-
-    // Redirect to the second page
-    navigate("/Second");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Check if necessary information is provided
+    if (formData.name && formData.phone && formData.email) {
+      // Save the user details in localStorage
+      localStorage.setItem('userDetails', JSON.stringify(formData));
+
+      // Redirect to the second page
+      navigate('/Second');
+    } else {
+      // Redirect back to the first page with an error message
+      navigate('/first-page', { state: {errorMessage: 'Please enter your details before accessing the second page.' }});
+    }
+  };
+
   return (
-    <div>
-      <div className="container pt-5">
-        <h1 className="mb-2">Please Fill The Form</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3 pt-3">
-            <label className="form-label" htmlFor="name">
-              Name
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3 pt-3">
-            <label className="form-label" htmlFor="email">
-              Email address
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3 pt-3">
-            <label className="form-label" htmlFor="number">
-              Phone Number
-            </label>
-            <input
-              type="number"
-              className="form-control"
-              id="number"
-              value={number}
-              onChange={(event) => setNumber(event.target.value)}
-              required
-            />
-          </div>
-          <div className="pt-3">
-            <Button type="submit" variant="contained">Submit</Button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <Container maxWidth="sm">
+      <Typography variant="h4" align="center" gutterBottom>
+        Contact Form
+      </Typography>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          label="Name"
+          fullWidth
+          margin="normal"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+        />
+        <TextField
+          label="Phone Number"
+          fullWidth
+          margin="normal"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+        />
+        <TextField
+          label="Email"
+          fullWidth
+          margin="normal"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <Button type="submit" variant="contained" color="primary" fullWidth>
+          Submit
+        </Button>
+      </form>
+    </Container>
   );
 };
 
-export default Form;
+export default ContactForm;
