@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
-import { List, ListItem, ListItemText, Collapse, Typography, Checkbox } from '@mui/material';
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import React, { useState } from "react";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  Collapse,
+  Typography,
+  Checkbox,
+} from "@mui/material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 interface SubDepartment {
   id: number;
@@ -18,34 +25,33 @@ const Second1: React.FC = () => {
   const departments: Department[] = [
     {
       id: 1,
-      name: 'Customer_service',
+      name: "Customer_service",
       subDepartments: [
         {
           id: 1,
-          name: 'Support',
+          name: "Support",
         },
         {
           id: 2,
-          name: 'Customer_success',
+          name: "Customer_success",
         },
-        
       ],
     },
     {
       id: 2,
-      name: 'Design',
+      name: "Design",
       subDepartments: [
         {
           id: 4,
-          name: 'Graphic_design',
+          name: "Graphic_design",
         },
         {
           id: 5,
-          name: 'Product_design',
+          name: "Product_design",
         },
         {
           id: 6,
-          name: 'Web_design',
+          name: "Web_design",
         },
       ],
     },
@@ -56,12 +62,16 @@ const Second1: React.FC = () => {
 
   // State for selected departments and sub-departments
   const [selectedDepartments, setSelectedDepartments] = useState<number[]>([]);
-  const [selectedSubDepartments, setSelectedSubDepartments] = useState<number[]>([]);
+  const [selectedSubDepartments, setSelectedSubDepartments] = useState<
+    number[]
+  >([]);
 
   // Handle toggle of department expand/collapse
   const handleToggleDepartment = (departmentId: number) => {
     if (expandedDepartments.includes(departmentId)) {
-      setExpandedDepartments(expandedDepartments.filter((id) => id !== departmentId));
+      setExpandedDepartments(
+        expandedDepartments.filter((id) => id !== departmentId)
+      );
     } else {
       setExpandedDepartments([...expandedDepartments, departmentId]);
     }
@@ -71,34 +81,52 @@ const Second1: React.FC = () => {
   const handleDepartmentCheckboxChange = (departmentId: number) => {
     if (selectedDepartments.includes(departmentId)) {
       // Deselect the department and its sub-departments
-      setSelectedDepartments(selectedDepartments.filter((id) => id !== departmentId));
+      setSelectedDepartments(
+        selectedDepartments.filter((id) => id !== departmentId)
+      );
       setSelectedSubDepartments(
-        selectedSubDepartments.filter((subDepartmentId) => !isSubDepartmentOf(departmentId, subDepartmentId))
+        selectedSubDepartments.filter(
+          (subDepartmentId) => !isSubDepartmentOf(departmentId, subDepartmentId)
+        )
       );
     } else {
       // Select the department and its sub-departments
       setSelectedDepartments([...selectedDepartments, departmentId]);
       setSelectedSubDepartments([
         ...selectedSubDepartments,
-        ...departments.find((department) => department.id === departmentId)?.subDepartments?.map(
-          (subDepartment) => subDepartment.id
-        ) ?? []
+        ...(departments
+          .find((department) => department.id === departmentId)
+          ?.subDepartments?.map((subDepartment) => subDepartment.id) ?? []),
       ]);
     }
   };
 
   // Handle change of sub-department checkbox selection
-  const handleSubDepartmentCheckboxChange = (subDepartmentId: number, departmentId: number) => {
+  const handleSubDepartmentCheckboxChange = (
+    subDepartmentId: number,
+    departmentId: number
+  ) => {
     if (selectedSubDepartments.includes(subDepartmentId)) {
       // Deselect the sub-department
-      setSelectedSubDepartments(selectedSubDepartments.filter((id) => id !== subDepartmentId));
+      setSelectedSubDepartments(
+        selectedSubDepartments.filter((id) => id !== subDepartmentId)
+      );
 
       // Check if parent department needs to be deselected
       const parentDepartmentId = getParentDepartmentId(subDepartmentId);
       if (parentDepartmentId) {
-        const parentDepartment = departments.find((department) => department.id === parentDepartmentId);
-        if (parentDepartment && selectedSubDepartments.some((id) => isSubDepartmentOf(parentDepartmentId, id))) {
-          setSelectedDepartments(selectedDepartments.filter((id) => id !== parentDepartmentId));
+        const parentDepartment = departments.find(
+          (department) => department.id === parentDepartmentId
+        );
+        if (
+          parentDepartment &&
+          selectedSubDepartments.some((id) =>
+            isSubDepartmentOf(parentDepartmentId, id)
+          )
+        ) {
+          setSelectedDepartments(
+            selectedDepartments.filter((id) => id !== parentDepartmentId)
+          );
         }
       }
     } else {
@@ -106,10 +134,14 @@ const Second1: React.FC = () => {
       setSelectedSubDepartments([...selectedSubDepartments, subDepartmentId]);
 
       // Check if parent department needs to be selected
-      const department = departments.find((department) => department.id === departmentId);
+      const department = departments.find(
+        (department) => department.id === departmentId
+      );
       if (
         department &&
-        department.subDepartments.every((subDepartment) => selectedSubDepartments.includes(subDepartment.id))
+        department.subDepartments.every((subDepartment) =>
+          selectedSubDepartments.includes(subDepartment.id)
+        )
       ) {
         setSelectedDepartments([...selectedDepartments, departmentId]);
       }
@@ -133,21 +165,29 @@ const Second1: React.FC = () => {
 
   // Check if a sub-department belongs to a department
   const isSubDepartmentOf = (departmentId: number, subDepartmentId: number) => {
-    const department = departments.find((department) => department.id === departmentId);
-    return department?.subDepartments.some((subDepartment) => subDepartment.id === subDepartmentId);
+    const department = departments.find(
+      (department) => department.id === departmentId
+    );
+    return department?.subDepartments.some(
+      (subDepartment) => subDepartment.id === subDepartmentId
+    );
   };
 
   // Get the parent department ID of a sub-department
   const getParentDepartmentId = (subDepartmentId: number) => {
     const department = departments.find((department) =>
-      department.subDepartments.some((subDepartment) => subDepartment.id === subDepartmentId)
+      department.subDepartments.some(
+        (subDepartment) => subDepartment.id === subDepartmentId
+      )
     );
     return department?.id;
   };
 
   // Check if all sub-departments of a department are selected
   const isAllSubDepartmentsSelected = (departmentId: number) => {
-    const department = departments.find((department) => department.id === departmentId);
+    const department = departments.find(
+      (department) => department.id === departmentId
+    );
     if (department) {
       return department.subDepartments.every((subDepartment) =>
         selectedSubDepartments.includes(subDepartment.id)
@@ -158,15 +198,20 @@ const Second1: React.FC = () => {
 
   // Handle select/deselect all sub-departments of a department
   const handleSelectAllSubDepartments = (departmentId: number) => {
-    const department = departments.find((department) => department.id === departmentId);
+    const department = departments.find(
+      (department) => department.id === departmentId
+    );
     if (department) {
-      const allSubDepartmentIds = department.subDepartments.map((subDepartment) => subDepartment.id);
+      const allSubDepartmentIds = department.subDepartments.map(
+        (subDepartment) => subDepartment.id
+      );
       setSelectedSubDepartments((prevSelectedSubDepartments) => {
         const updatedSelectedSubDepartments = [...prevSelectedSubDepartments];
         if (isAllSubDepartmentsSelected(departmentId)) {
           // Deselect all sub-departments
           allSubDepartmentIds.forEach((subDepartmentId) => {
-            const index = updatedSelectedSubDepartments.indexOf(subDepartmentId);
+            const index =
+              updatedSelectedSubDepartments.indexOf(subDepartmentId);
             if (index !== -1) {
               updatedSelectedSubDepartments.splice(index, 1);
             }
@@ -198,40 +243,80 @@ const Second1: React.FC = () => {
   };
 
   return (
-    <List>
-      {departments.map((department) => (
-        <div key={department.id}>
-          <ListItem button onClick={() => handleToggleDepartment(department.id)}>
-            <Checkbox
-              checked={isDepartmentSelected(department.id)}
-              indeterminate={isAllSubDepartmentsSelected(department.id)}
-              onChange={() => handleDepartmentCheckboxChange(department.id)}
-            />
-            <ListItemText>
-              <Typography variant="body1">{department.name}</Typography>
-            </ListItemText>
-            {isDepartmentExpanded(department.id) ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={isDepartmentExpanded(department.id)} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {department.subDepartments.map((subDepartment) => (
-                <ListItem key={subDepartment.id} button style={{ paddingLeft: '2rem' }}>
-                  <Checkbox
-                    checked={isSubDepartmentSelected(subDepartment.id)}
-                    onChange={() => handleSubDepartmentCheckboxChange(subDepartment.id, department.id)}
-                  />
-                  <ListItemText>
-                    <Typography variant="body2">{subDepartment.name}</Typography>
-                  </ListItemText>
-                </ListItem>
-              ))}
-            </List>
-          </Collapse>
-        </div>
-      ))}
-    </List>
+    <>
+    <h1
+        style={{
+          textAlign: "center",
+          paddingTop: 20,
+          paddingBottom: 5,
+          textDecorationLine: "underline",
+        }}
+      >
+        List Component
+      </h1>
+      <div style={{
+          height: 350,
+          width: "85%",
+          display: "block",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}>
+      <List>
+        {departments.map((department) => (
+          <div key={department.id}>
+            <ListItem
+              button
+              onClick={() => handleToggleDepartment(department.id)}
+            >
+              <Checkbox
+                checked={isDepartmentSelected(department.id)}
+                indeterminate={isAllSubDepartmentsSelected(department.id)}
+                onChange={() => handleDepartmentCheckboxChange(department.id)}
+              />
+              <ListItemText>
+                <Typography variant="body1">{department.name}</Typography>
+              </ListItemText>
+              {isDepartmentExpanded(department.id) ? (
+                <ExpandLess />
+              ) : (
+                <ExpandMore />
+              )}
+            </ListItem>
+            <Collapse
+              in={isDepartmentExpanded(department.id)}
+              timeout="auto"
+              unmountOnExit
+            >
+              <List component="div" disablePadding>
+                {department.subDepartments.map((subDepartment) => (
+                  <ListItem
+                    key={subDepartment.id}
+                    button
+                    style={{ paddingLeft: "2rem" }}
+                  >
+                    <Checkbox
+                      checked={isSubDepartmentSelected(subDepartment.id)}
+                      onChange={() =>
+                        handleSubDepartmentCheckboxChange(
+                          subDepartment.id,
+                          department.id
+                        )
+                      }
+                    />
+                    <ListItemText>
+                      <Typography variant="body2">
+                        {subDepartment.name}
+                      </Typography>
+                    </ListItemText>
+                  </ListItem>
+                ))}
+              </List>
+            </Collapse>
+          </div>
+        ))}
+      </List></div>
+    </>
   );
 };
 
 export default Second1;
-

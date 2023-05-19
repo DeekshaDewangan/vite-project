@@ -1,6 +1,6 @@
 import "./App.css";
 import Form from "./Components/Form";
-import Second from "./Components/Second";
+import TableComponent from "./Components/TableComponent";
 // import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -10,7 +10,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Form />} />
-          <Route path="/Second" element={<Second/>} />
+          <Route path="/TableComponent" element={<TableComponent/>} />
         </Routes>
       </Router>
     </>

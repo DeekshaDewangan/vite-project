@@ -32,7 +32,7 @@ const ContactForm = () => {
       localStorage.setItem('userDetails', JSON.stringify(formData));
 
       // Redirect to the second page
-      navigate('/Second');
+      navigate('/TableComponent');
     } else {
       // Redirect back to the first page with an error message
       navigate('/first-page', { state: {errorMessage: 'Please enter your details before accessing the second page.' }});
