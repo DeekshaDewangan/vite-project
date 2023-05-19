@@ -40,7 +40,7 @@ const ContactForm = () => {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm"  sx={{ paddingTop: 10, width: 600}}>
       <Typography variant="h4" align="center" gutterBottom>
         Contact Form
       </Typography>
