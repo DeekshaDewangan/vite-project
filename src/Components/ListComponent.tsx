@@ -197,6 +197,7 @@ const ListComponent: React.FC = () => {
   };
 
   // Handle select/deselect all sub-departments of a department
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleSelectAllSubDepartments = (departmentId: number) => {
     const department = departments.find(
       (department) => department.id === departmentId
