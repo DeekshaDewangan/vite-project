@@ -20,7 +20,7 @@ interface Department {
   subDepartments: SubDepartment[];
 }
 
-const Second1: React.FC = () => {
+const ListComponent: React.FC = () => {
   // Hardcoded JSON data
   const departments: Department[] = [
     {
@@ -319,4 +319,4 @@ const Second1: React.FC = () => {
   );
 };
 
-export default Second1;
+export default ListComponent;

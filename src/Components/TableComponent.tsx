@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import Second1 from "./Second1";
+import ListComponent from "./ListComponent";
 
 interface Post {
   userId: number;
@@ -62,7 +62,7 @@ const TableComponent: React.FC = () => {
         <DataGrid rows={posts} columns={columns} checkboxSelection />
       </div>
       <div>
-        <Second1 />
+        <ListComponent />
       </div>
     </>
   );
